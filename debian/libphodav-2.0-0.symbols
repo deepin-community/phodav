@@ -1,0 +1,14 @@
+libphodav-2.0.so.0 libphodav-2.0-0 #MINVER#
+* Build-Depends-Package: libphodav-2.0-dev
+ LIBPHODAV1_0.0@LIBPHODAV1_0.0 2.0
+ phodav_server_get_soup_server@LIBPHODAV1_0.0 2.0
+ phodav_server_get_type@LIBPHODAV1_0.0 2.0
+ phodav_server_new@LIBPHODAV1_0.0 2.0
+ phodav_server_new_for_root_file@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_attach_real_child@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_enumerator_get_type@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_get_type@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_new_dir@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_new_root@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_root_get_real@LIBPHODAV1_0.0 2.5
+ phodav_virtual_dir_root_set_real@LIBPHODAV1_0.0 2.5

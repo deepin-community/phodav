@@ -1,0 +1,78 @@
+phodav (2.5-1) unstable; urgency=medium
+
+  * New upstream release
+  * Bump minimum meson to 0.50
+  * Bump debhelper-compat to 13
+  * debian/libphodav-2.0-0.symbols: Add new symbols
+  * Add debian/docs to install NEWS and README.md
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 04 Oct 2020 08:58:06 -0400
+
+phodav (2.4-1) unstable; urgency=medium
+
+  * New upstream release
+  * debian/control.in: Bump Standards-Version to 4.5.0 (no further changes)
+  * debian/control.in: Set Rules-Requires-Root: no
+  * debian/control.in: Add libglib2.0-doc and libsoup2.4-doc to the build-deps
+  * Only require systemd and udev on linux architectures and adjust installed
+    files on non-linux ones
+
+ -- Laurent Bigonville <bigon@debian.org>  Sun, 15 Mar 2020 11:38:05 +0100
+
+phodav (2.3-2) unstable; urgency=medium
+
+  * Build-Depend on debhelper-compat 12 and drop debian/compat
+  * Build-Depend on dh-sequence-gnome instead of gnome-pkg-tools
+  * Bump Standards-Version to 4.4.0
+  * Upload to unstable
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sat, 14 Sep 2019 21:01:04 -0400
+
+phodav (2.3-1) experimental; urgency=medium
+
+  * New upstream release
+  * Build with meson
+  * Build-Depend on gtk-doc-tools
+  * Build-Depend on systemd until phodav again offers systemd support
+    without needing the systemd pkgconfig file installed.
+  * Build-Depend on udev for the same reason
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sat, 16 Mar 2019 08:44:14 -0400
+
+phodav (2.2-3) unstable; urgency=medium
+
+  * Update Vcs fields for migration to https://salsa.debian.org/
+  * Bump debhelper compat to 11
+  * Add -Wl,-O1 to our LDFLAGS
+  * Bump Standards-Version to 4.3.0
+
+ -- Jeremy Bicha <jbicha@debian.org>  Thu, 27 Dec 2018 11:36:10 -0500
+
+phodav (2.2-2) unstable; urgency=medium
+
+  * Upload to unstable
+  * debian/control.in: Bump Standards-Version to 4.0.0 (no further changes)
+
+ -- Laurent Bigonville <bigon@debian.org>  Fri, 30 Jun 2017 09:43:01 +0200
+
+phodav (2.2-1) experimental; urgency=medium
+
+  * New upstream version 2.2
+  * Bump glib build-dependency to >= 2.51 according to configure.ac changes.
+    - upstream now uses GUuid from glib.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Thu, 09 Mar 2017 11:21:51 +0100
+
+phodav (2.1-1) unstable; urgency=medium
+
+  * New upstream release
+    - Drop d/p/0001-Add-version-prefix-to-gettext-and-doc-directories.patch,
+      d/p/02-link-chezdav-libsoup.patch: Applied upstream
+
+ -- Laurent Bigonville <bigon@debian.org>  Wed, 18 Jan 2017 09:26:47 +0100
+
+phodav (2.0-1) unstable; urgency=medium
+
+  * Initial release (Closes: #822694)
+
+ -- Laurent Bigonville <bigon@debian.org>  Mon, 17 Oct 2016 23:56:43 +0200

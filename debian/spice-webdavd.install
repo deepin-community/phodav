@@ -1,0 +1,3 @@
+lib/systemd/system/spice-webdavd.service
+lib/udev/rules.d/70-spice-webdavd.rules
+usr/sbin/spice-webdavd

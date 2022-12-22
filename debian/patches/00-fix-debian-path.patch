@@ -1,0 +1,10 @@
+--- a/data/spice-webdavd.service
++++ b/data/spice-webdavd.service
+@@ -5,6 +5,6 @@ After=dbus.service avahi-daemon.service
+ 
+ [Service]
+ Type=simple
+-EnvironmentFile=-/etc/sysconfig/spice-webdavd
++EnvironmentFile=-/etc/default/spice-webdavd
+ ExecStart=/usr/sbin/spice-webdavd -p 9843 $SPICE_WEBDAVD_EXTRA_ARGS
+ Restart=on-success
