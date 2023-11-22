@@ -59,7 +59,11 @@ set_attr (GFile *file, xmlNodePtr attrnode,
         return SOUP_STATUS_FORBIDDEN;
       gchar *path = g_file_get_path (file);
 #ifdef HAVE_SYS_XATTR_H
+#ifdef __APPLE__
+      removexattr (path, attrname, 0);
+#else
       removexattr (path, attrname);
+#endif
 #else
       g_debug ("cannot remove xattr from %s, not supported", path); /* FIXME? */
 #endif
@@ -88,7 +92,7 @@ set_attr (GFile *file, xmlNodePtr attrnode,
 }
 
 static gint
-prop_set (SoupMessage *msg,
+prop_set (SoupServerMessage *msg,
           GFile *file, xmlNodePtr parent, xmlNodePtr *attr,
           gboolean remove, GCancellable *cancellable)
 {
@@ -130,7 +134,7 @@ prop_set (SoupMessage *msg,
 }
 
 gint
-phodav_method_proppatch (PathHandler *handler, SoupMessage *msg,
+phodav_method_proppatch (PathHandler *handler, SoupServerMessage *msg,
                          const char *path, GError **err)
 {
   GCancellable *cancellable = handler_get_cancellable (handler);
@@ -141,7 +145,7 @@ phodav_method_proppatch (PathHandler *handler, SoupMessage *msg,
   GList *props = NULL, *submitted = NULL;
   gint status;
 
-  if (!davdoc_parse (&doc, msg, msg->request_body, "propertyupdate"))
+  if (!davdoc_parse (&doc, msg, soup_server_message_get_request_body (msg), "propertyupdate"))
     {
       status = SOUP_STATUS_BAD_REQUEST;
       goto end;

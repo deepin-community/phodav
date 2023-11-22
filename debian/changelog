@@ -1,3 +1,57 @@
+phodav (3.0-8) unstable; urgency=medium
+
+  * debian/rules: Specify systemdsystemunitdir
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 01 Mar 2023 17:33:09 -0500
+
+phodav (3.0-7) unstable; urgency=medium
+
+  * Fix non-Linux build by simplifying debian/rules
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 01 Mar 2023 15:16:09 -0500
+
+phodav (3.0-6) unstable; urgency=medium
+
+  * Drop obsolete Build-Depends on systemd & dev
+  * Add debian/upstream/metadata
+  * Avoid explicitly specifying -Wl,--as-needed linker flag
+  * Update standards version to 4.6.2, no changes needed
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 01 Mar 2023 14:22:43 -0500
+
+phodav (3.0-5) unstable; urgency=medium
+
+  * Team upload.
+  * chezdav recommends avahi-daemon (Closes: #1027308)
+
+ -- Andreas Henriksson <andreas@fatal.se>  Sat, 31 Dec 2022 22:08:55 +0100
+
+phodav (3.0-4) unstable; urgency=medium
+
+  * Release to unstable
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 02 Aug 2022 15:48:58 -0400
+
+phodav (3.0-3) experimental; urgency=medium
+
+  * Have libphodav-3.0-dev depend on libxml2-dev as required by pkgconfig
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Sat, 16 Jul 2022 17:37:44 +0200
+
+phodav (3.0-2) experimental; urgency=medium
+
+  * Have libphodav-3.0-dev depend on libsoup-3.0-dev
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Sat, 16 Jul 2022 17:09:40 +0200
+
+phodav (3.0-1) experimental; urgency=medium
+
+  * New upstream release
+  * debian/control.in: Build-Depend on libsoup3 instead of libsoup2.4
+  * Rename packages for API bump
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 01 Jul 2022 15:55:12 -0400
+
 phodav (2.5-1) unstable; urgency=medium
 
   * New upstream release

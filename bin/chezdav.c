@@ -38,6 +38,10 @@ static gint port = 8080;
 static gint local = 0;
 static gint public = 0;
 
+#ifdef WITH_AVAHI
+static gint nomdns = 0;
+#endif
+
 G_GNUC_PRINTF (1, 2) static void
 my_error (const gchar *format, ...)
 {
@@ -73,11 +77,11 @@ get_realm (void)
 
 gchar *htdigest = NULL;
 
-static gchar *
-digest_auth_callback (SoupAuthDomain *auth_domain, SoupMessage *msg,
+static gboolean
+digest_auth_callback (SoupAuthDomain *auth_domain, SoupServerMessage *msg,
                       const char *username, gpointer data)
 {
-  gchar *digest = NULL;;
+  gchar *digest = NULL;
   gchar *line = NULL;
   gchar *eol = NULL;
 
@@ -99,7 +103,7 @@ digest_auth_callback (SoupAuthDomain *auth_domain, SoupMessage *msg,
         break;
     }
 
-  return digest;
+  return !!digest;
 }
 
 int
@@ -108,6 +112,7 @@ main (int argc, char *argv[])
   GError *error = NULL;
   GOptionContext *context;
   const gchar *path = NULL;
+  const gchar *realm = NULL;
   GMainLoop *mainloop = NULL;
 
   int version = 0;
@@ -119,7 +124,11 @@ main (int argc, char *argv[])
     { "public", 0, 0, G_OPTION_ARG_NONE, &public, N_ ("Listen on all interfaces"), NULL },
     { "path", 'P', 0, G_OPTION_ARG_FILENAME, &path, N_ ("Path to export"), NULL },
     { "htdigest", 'd', 0, G_OPTION_ARG_FILENAME, &htdigest, N_ ("Path to htdigest file"), NULL },
+    { "realm", 0, 0, G_OPTION_ARG_STRING, &realm, N_ ("DIGEST realm"), NULL },
     { "readonly", 'r', 0, G_OPTION_ARG_NONE, &readonly, N_ ("Read-only access"), NULL },
+#ifdef WITH_AVAHI
+    { "no-mdns", 0, 0, G_OPTION_ARG_NONE, &nomdns, N_ ("Skip mDNS service announcement"), NULL },
+#endif
     { NULL }
   };
 
@@ -159,6 +168,9 @@ main (int argc, char *argv[])
   if (!path)
       path = g_get_home_dir ();
 
+  if (!realm)
+      realm = get_realm ();
+
   mainloop = g_main_loop_new (NULL, FALSE);
 
 #ifdef G_OS_UNIX
@@ -171,20 +183,16 @@ main (int argc, char *argv[])
   if (htdigest)
     {
       SoupAuthDomain *auth;
-      gchar *realm;
       SoupServer *server;
 
       if (!g_file_get_contents (htdigest, &htdigest, NULL, &error))
         my_error (_ ("Failed to open htdigest: %s\n"), error->message);
 
-      realm = get_realm ();
-      auth = soup_auth_domain_digest_new (SOUP_AUTH_DOMAIN_REALM, realm,
-                                          SOUP_AUTH_DOMAIN_ADD_PATH, "/",
-                                          SOUP_AUTH_DOMAIN_DIGEST_AUTH_CALLBACK, digest_auth_callback,
-                                          SOUP_AUTH_DOMAIN_DIGEST_AUTH_DATA, NULL,
-                                          NULL);
+      auth = soup_auth_domain_digest_new ("realm", realm, NULL);
+      soup_auth_domain_add_path (auth, "/");
+      soup_auth_domain_set_generic_auth_callback (auth, digest_auth_callback, NULL, NULL);
+
       server = phodav_server_get_soup_server (dav);
-      g_free (realm);
       soup_server_add_auth_domain (server, auth);
       g_object_unref (auth);
   }
@@ -192,7 +200,7 @@ main (int argc, char *argv[])
 
 #ifdef WITH_AVAHI
   gchar *name = get_realm ();
-  if (!avahi_client_start (name, port, local, &error))
+  if (!nomdns && !avahi_client_start (name, port, local, &error))
     my_error (_ ("mDNS failed: %s\n"), error->message);
 #endif
 
